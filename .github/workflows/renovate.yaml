@@ -14,7 +14,7 @@ on:
         required: false
       logLevel:
         description: Log-Level
-        default: debug
+        default: "debug"
         required: false
   schedule:
     - cron: "0 * * * *"
