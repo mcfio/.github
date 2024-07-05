@@ -43,7 +43,7 @@ jobs:
           LOG_LEVEL: ${{ inputs.logLevel || 'debug' }}
           RENOVATE_DRY_RUN: ${{ inputs.dryRun || 'false' }}
           RENOVATE_AUTODISCOVER: true
-          RENOVATE_AUTODISCOVER_FILTER: "${{ github.repository_owner }}/${{ inputs.autodiscover_filter }}"
+          RENOVATE_AUTODISCOVER_FILTER: "${{ github.repository_owner }}/${{ inputs.autodiscover_filter || '*' }}"
           RENOVATE_PLATFORM: github
           RENOVATE_PLATFORM_COMMIT: true
         with:
