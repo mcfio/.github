@@ -1,5 +1,6 @@
 ---
 name: Hourly Renovate
+
 on:
   workflow_dispatch:
     inputs:
@@ -19,32 +20,15 @@ on:
   schedule:
     - cron: "0 * * * *"
 
+env:
+  RENOVATE_AUTODISCOVER: true
+  RENOVATE_AUTODISCOVER_FILTER: ${{ github.repository_owner }}/${{ inputs.autodiscover_filter || '*' }}
+      
 jobs:
   renovate:
     name: Renovate
-    runs-on: ubuntu-latest
-    steps:
-      - name: Generate App Token
-        uses: actions/create-github-app-token@31c86eb3b33c9b601a1f60f98dcbfd1d70f379b4 # v1
-        id: app-token
-        with:
-          app-id: ${{ secrets.BOT_APP_ID }}
-          private-key: ${{ secrets.BOT_APP_PRIVATE_KEY }}
-          owner: ${{ github.repository_owner }}
+    uses: mcfio/renovate-config/.github/workflows/renovate.yaml@main
+    secrets:
+      app_id: ${{ secrets.BOT_APP_ID }}
+      app_private_key: ${{ secrets.BOT_APP_PRIVATE_KEY }}
 
-      - name: Checkout
-        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
-        with:
-          token: ${{ steps.app-token.outputs.token }}
-
-      - name: Renovate
-        uses: renovatebot/github-action@042670e39b8d7335e992c3fa526ecbfbd52ef57b # v40.2.2
-        env:
-          LOG_LEVEL: ${{ inputs.logLevel || 'debug' }}
-          RENOVATE_DRY_RUN: ${{ inputs.dryRun || 'false' }}
-          RENOVATE_AUTODISCOVER: true
-          RENOVATE_AUTODISCOVER_FILTER: "${{ github.repository_owner }}/${{ inputs.autodiscover_filter || '*' }}"
-          RENOVATE_PLATFORM: github
-          RENOVATE_PLATFORM_COMMIT: true
-        with:
-          token: ${{ steps.app-token.outputs.token }}
