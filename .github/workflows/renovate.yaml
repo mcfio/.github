@@ -32,8 +32,8 @@ jobs:
     name: Renovate
     uses: mcfio/renovate-config/.github/workflows/renovate.yaml@main
     with:
-      dryRun: ${{ inputs.dryRun || 'false' }}
-      logLevel: ${{ inputs.logLevel || 'debug' }}
+      dryRun: ${{ inputs.dryRun }}
+      logLevel: ${{ inputs.logLevel }}
       autoDiscover: true
       autoDiscoverFilter: ${{ github.repository_owner }}/${{ inputs.autoDiscoverFilter || '*' }}
     secrets:
