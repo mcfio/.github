@@ -9,25 +9,26 @@ on:
         default: false
         required: false
         type: boolean
-      autodiscover_filter:
-        description: "Autodiscover filter"
+      autoDiscoverFilter:
+        description: Autodiscover filter
         default: "*"
         required: false
       logLevel:
         description: Log-Level
-        default: "debug"
+        default: debug
         required: false
   schedule:
     - cron: "0 * * * *"
 
-env:
-  RENOVATE_AUTODISCOVER: true
-  RENOVATE_AUTODISCOVER_FILTER: ${{ github.repository_owner }}/${{ inputs.autodiscover_filter || '*' }}
-      
 jobs:
   renovate:
     name: Renovate
     uses: mcfio/renovate-config/.github/workflows/renovate.yaml@main
+    with:
+      dryRun: ${{ inputs.dryRun || 'false' }}
+      logLevel: ${{ inputs.logLevel || 'debug' }}
+      autoDiscover: true
+      autoDiscoverFilter: ${{ github.repository_owner }}/${{ inputs.autoDiscoverFilter || '*' }}
     secrets:
       app_id: ${{ secrets.BOT_APP_ID }}
       app_private_key: ${{ secrets.BOT_APP_PRIVATE_KEY }}
